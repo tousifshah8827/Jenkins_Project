@@ -28,4 +28,6 @@ stages{
        steps{
            sshPublisher(publishers: [sshPublisherDesc(configName: 'Tomcat_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/opt/tomcat/webapps/addressbook.war', remoteDirectorySDF: false, removePrefix: 'target/', sourceFiles: 'target/addressbook.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
          }
-    }
+      }
+   }
+}
