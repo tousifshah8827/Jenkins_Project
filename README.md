@@ -1,2 +1,2 @@
 # Jenkins_Project_StarAgile
-This is a Jenkins CICD pipeline project
+This is a demo Jenkins CICD pipeline project
