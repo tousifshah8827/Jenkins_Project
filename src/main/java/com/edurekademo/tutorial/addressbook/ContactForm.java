@@ -1,5 +1,4 @@
 package com.edurekademo.tutorial.addressbook;
-
 import com.vaadin.event.ShortcutAction;
 import com.edurekademo.tutorial.addressbook.backend.Contact;
 import com.vaadin.ui.Button;
@@ -15,11 +14,11 @@ import com.vaadin.v7.ui.TextField;
 
 /* Create custom UI Components.
  *
- * Create your own Vaadin components by inheritance and composition.
+ * Create your own Vaadin components by inheritance and composition
  * This is a form component inherited from VerticalLayout. Use
- * Use BeanFieldGroup to bind data fields from DTO to UI fields.
+ * Use BeanFieldGroup to bind data fields from DTO to UI fields
  * Similarly named field by naming convention or customized
- * with @PropertyId annotation.
+ * with @PropertyId annotation
  */
 public class ContactForm extends FormLayout {
 
