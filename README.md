@@ -1,2 +1,2 @@
 # Jenkins_Project_StarAgile
-This is Jenkins project
+This is Jenkins CICD project
