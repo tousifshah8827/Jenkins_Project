@@ -16,31 +16,30 @@ stages{
        }
       stage('Compile with Maven') {
        steps{
-           bat 'mvn clean compile'
+           sh 'mvn clean compile'
               }
             }
        stage('Test with Maven') {
        steps{
-           bat 'mvn clean test'
+           sh 'mvn clean test'
               }
             }
        stage('Package with Maven') {
         steps{
-           bat 'mvn clean package'
+           sh 'mvn clean package'
               }
             }
        stage("Docker Build"){
         steps {
-			bat 'docker version'
-			bat "docker build -t cicd-project:${BUILD_NUMBER} ."
-			bat 'docker image list'
-			bat "docker tag cicd-project:${BUILD_NUMBER} suvo7886/cicd-project:latest"
+			sh 'docker version'
+			sh "docker build -t cicd-project:${BUILD_NUMBER} ."
+			sh 'docker image list'
+			sh "docker tag cicd-project:${BUILD_NUMBER} suvo7886/cicd-project:latest"
             }
         }
 	   stage('Login to DockerHub') {
 		steps {
 		   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		   // bat 'winpty docker login'
 			}
 		}
        stage('Approve for Push Image to Dockerhub'){
@@ -52,7 +51,7 @@ stages{
         }
 	   stage('Push to DockerHub') {
 		steps {
-			bat "docker push suvo7886/cicd-project:latest"
+			sh "docker push suvo7886/cicd-project:latest"
 			}
 		}
        stage('Deploy to Tomcat Server') {
