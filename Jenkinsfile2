@@ -32,9 +32,10 @@ stages{
        stage("Docker Build"){
         steps {
 			bat 'docker version'
-			bat "docker build -t cicd-project:${BUILD_NUMBER} ."
+			bat "docker build -t suvo7886/cicd-project:v2 ."
+		//	bat "docker build -t cicd-project:${BUILD_NUMBER} ."
 			bat 'docker image list'
-			bat "docker tag cicd-project:${BUILD_NUMBER} suvo7886/cicd-project:latest"
+		//	bat "docker tag cicd-project:${BUILD_NUMBER} suvo7886/cicd-project:latest"
             }
         }
 	   stage('Login to DockerHub') {
@@ -52,15 +53,29 @@ stages{
         }
 	   stage('Push to DockerHub') {
 		steps {
-			bat "docker push suvo7886/cicd-project:latest"
+			bat "docker push suvo7886/cicd-project:v2"
 			}
 		}
-       stage('Deploy to Tomcat Server') {
-        steps{
-           script{
-             sshPublisher(publishers: [sshPublisherDesc(configName: 'Tomcat', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\addressbook.war', remoteDirectorySDF: false, removePrefix: 'workspace\\CICD\\target\\', sourceFiles: 'workspace\\CICD\\target\\addressbook.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-           }
-         }
-      }
+     //  stage('Deploy to Tomcat Server') {
+     //   steps{
+     //      script{
+     //        sshPublisher(publishers: [sshPublisherDesc(configName: 'Tomcat', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\addressbook.war', remoteDirectorySDF: false, removePrefix: 'workspace\\CICD\\target\\', sourceFiles: 'workspace\\CICD\\target\\addressbook.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+     //      }
+     //    }
+     // }
+        stage('Approve - Deployment to Kubernetes Cluster'){
+            steps{
+                script {
+                   env.APPROVED_DEPLOY = input message: 'User input required Choose "Yes" | "Abort"'
+                }
+            }
+        }
+        stage('Deploy to Kubernetes Cluster') {
+            steps {
+        		script {
+        		sshPublisher(publishers: [sshPublisherDesc(configName: 'kubernetescluster', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f k8s_deploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+        	}
+        }
+	}
    }
 }
