@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: suvo7886-np-service
+  labels:
+    app: suvo7886-app
+spec:
+  selector:
+    app: suvo7886-app
+
+  type: NodePort
+  ports:
+  - nodePort: 31000
+    port: 8080
+    targetPort: 8080
