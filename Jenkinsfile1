@@ -8,7 +8,7 @@ pipeline {
 stages{
     stage('Checkout from Github') {
       steps{
-         git 'https://github.com/suvo7886/Jenkins_Project_StarAgile.git'
+         git 'https://github.com/tousifshah8827/Jenkins_Project.git'
            }
        }
       stage('Compile with Maven') {
